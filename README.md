@@ -1,0 +1,17 @@
+# TheWorldwideCoronavirusData
+
+[TheWorldwideCoronavirusData site]()
+
+`TheWorldwideCoronavirusData` is a data visualization that uses total cases of Coronavirus, differentiated by day and country, which allows users to view the accmulated Coronavirus cases per country, since the day of December the 31st,2019 to May the 23th,2020. Users are able to see the data on a global scale, and the overall progression since the beginning of this epidemic.
+This application was built with D3, Vanilla Javascript & HTML5, using data from https://ourworldindata.org/.
+
+## Technology used:
+* D3 Javascript Library
+* Vanilla Javascript
+
+## Features
+* D3 was used to create a world map using geoJson mapping and csv data, with each country's color representing the amount of accumulated cases. Javascript was used to create a slidebar that allows the map to re-paint itself based on the date being chosen.
+
+* To create a timelapse effect, and rather than having to create a new map with different colors each time--because that process savierly slowed down the application--the colors are simply re-painted based on what date is being selected. This Allows the program to run in an efficient manner.  
+
+
