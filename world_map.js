@@ -122,7 +122,7 @@ function ready() {
     // Draw the map
     map = svg.append("g")
         .selectAll("path")
-        .data(countries.features)
+        .data(countries.features)  //coresponds to d3 Json file ln 33,148
         .enter()
         .append("path")
         // draw each country
@@ -142,10 +142,8 @@ function ready() {
 
 }
 
-
 const updateMap = (date) => {
-    
-    //console.log(date)
+    //console.log(date) below is ln 125
     map._groups[0].forEach((country) => {
         total = dates[date][country.__data__.properties.name] || 0;
         country.setAttribute("fill", colorScale(total));
@@ -159,18 +157,32 @@ document.getElementById("datePicker").addEventListener("change", (e) => {
 });
 
 
+document.getElementById("myButton").addEventListener("click", (e) => {
+    //document.getElementById("datePicker").value = "2019-12-31"
+    playThrough(e.currentTarget.value);
+});
 
-const timeLapse = () => {
-    let date = document.getElementById("datePicker").value;
-    //console.log(date)
-    document.getElementById("date").innerHTML = `Date: ${date}`;
-    map._groups[0].forEach((country) => {
-        total = dates[date][country.__data__.properties.name] || 0;
-        country.setAttribute("fill", colorScale(total));
-    });
+let loopEvent;
+const playThrough = () => {
+    if (loopEvent) {
+        //pause
+        window.clearInterval(loopEvent);
+        loopEvent = null;
+        document.getElementById("myButton").value = "Time Lapse";
+    } else { //play
+        if (Date.parse(document.getElementById("datePicker").value) < Date.parse("2020-5-23")) {
+            increment();
+            document.getElementById("myButton").value = "Pause";
+            loopEvent = setInterval(increment, 500);
+        } else {
+            //invalid date
+            document.getElementById("datePicker").value = "2019-12-31";
+            increment();
+            document.getElementById("myButton").value = "Pause";
+            loopEvent = setInterval(increment, 500);
+        }
+    }
 };
-
-let int;
 
 const increment = () => {
 
@@ -181,11 +193,11 @@ const increment = () => {
         timeLapse();
     } else {
         //stop
-        document.getElementById("datePicker").value = "2020-05-23";
         timeLapse();
-        window.clearInterval(int);
+        window.clearInterval(loopEvent);
         document.getElementById("myButton").value = "Time Lapse";
-        int = null;
+        loopEvent = null;
+        document.getElementById("datePicker").value = "2019-12-31";
     }
 };
 
@@ -198,32 +210,18 @@ function nextDateOf(today) {
     return JSON.stringify(nextDate).substring(1,11);
 }
 
-
-const playThrough = () => {
-    if (int) {
-        //pause
-        window.clearInterval(int);
-        int = null;
-        document.getElementById("myButton").value = "Time Lapse";
-    } else { //play
-        if (Date.parse(document.getElementById("datePicker").value) < Date.parse("2020-5-23")) {
-            increment();
-            document.getElementById("myButton").value = "Pause";
-            int = setInterval(increment, 500);
-        } else {
-            //invalid date
-            document.getElementById("datePicker").value = "2019-12-31";
-            increment();
-            document.getElementById("myButton").value = "Pause";
-            int = setInterval(increment, 500);
-        }
-    }
+const timeLapse = () => {
+    let date = document.getElementById("datePicker").value;
+    //console.log(date)
+    document.getElementById("date").innerHTML = `Date: ${date}`;
+    map._groups[0].forEach((country) => {
+        total = dates[date][country.__data__.properties.name] || 0;
+        country.setAttribute("fill", colorScale(total));
+    });
 };
 
-document.getElementById("myButton").addEventListener("click", (e) => {
-    //document.getElementById("datePicker").value = "2019-12-31"
-    playThrough(e.currentTarget.value);
-});
+
+
 
 // document.getElementById("music").addEventListener("click", (e) => {
 //     let music = document.getElementById("music");
