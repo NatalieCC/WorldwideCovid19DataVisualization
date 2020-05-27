@@ -142,6 +142,7 @@ function ready() {
 
 }
 
+//1.get country data 2.loop through contries get cases of this country 3. change color
 const updateMap = (date) => {
     //console.log(date) below is ln 125
     map._groups[0].forEach((country) => {
@@ -156,6 +157,7 @@ document.getElementById("datePicker").addEventListener("change", (e) => {
     document.getElementById("date").innerHTML = `Date: ${e.currentTarget.value}`;
 });
 
+//timeLapse onclick event
 
 document.getElementById("myButton").addEventListener("click", (e) => {
     //document.getElementById("datePicker").value = "2019-12-31"
@@ -210,6 +212,7 @@ function nextDateOf(today) {
     return JSON.stringify(nextDate).substring(1,11);
 }
 
+//updat map
 const timeLapse = () => {
     let date = document.getElementById("datePicker").value;
     //console.log(date)
