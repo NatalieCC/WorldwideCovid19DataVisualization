@@ -1,6 +1,6 @@
 # TheWorldwideCoronavirusData
 
-[TheWorldwideCoronavirusData site](https://NatalieCC.github.io/WorldwideCovid19DataVisualization/)
+[TheWorldwideCoronavirusData site](https://natalieCC.github.io/WorldwideCovid19DataVisualization/)
 
 `TheWorldwideCoronavirusData` is a data visualization that uses total cases of Coronavirus, differentiated by day and country, which allows users to view the accmulated Coronavirus cases per country, since the day of December the 31st,2019 to May the 23th,2020. Users are able to see the data on a global scale, and the overall progression since the beginning of this epidemic.
 This application was built with D3, Vanilla Javascript & HTML5, using data from https://ourworldindata.org/.
