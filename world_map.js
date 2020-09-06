@@ -172,7 +172,7 @@ const playThrough = () => {
         loopEvent = null;
         document.getElementById("myButton").value = "Time Lapse";
     } else { //play
-        if (Date.parse(document.getElementById("datePicker").value) < Date.parse("2020-5-23")) {
+        if (Date.parse(document.getElementById("datePicker").value) < Date.parse("2020-09-06")) {
             increment();
             document.getElementById("myButton").value = "Pause";
             loopEvent = setInterval(increment, 500);
@@ -189,7 +189,7 @@ const playThrough = () => {
 const increment = () => {
 
     let date = document.getElementById("datePicker").value;
-    if (Date.parse(date) < Date.parse("2020-05-23")) {
+    if (Date.parse(date) < Date.parse("2020-09-06")) {
         //continue
         document.getElementById("datePicker").value = nextDateOf(date);
         timeLapse();
@@ -222,7 +222,6 @@ const timeLapse = () => {
         country.setAttribute("fill", colorScale(total));
     });
 };
-
 
 
 
