@@ -31,7 +31,8 @@ let countries = {};
 // Load external data and boot
 const geoAndFulldata = [
     d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
-    d3.csv("./full_data.csv",
+    d3.csv("./owid-covid-data.csv",
+        //d3.csv("./full_data.csv",
         (d) => {
             if (!dates[d.date]) {
                 dates[d.date] = {};
@@ -42,30 +43,31 @@ const geoAndFulldata = [
                 dates[d.date][d.location] = +d["total_cases"];
             }
             //if (dates[d.date][d.location] == "USA") { dates[d.date][d.location]= "United States"};
-                // if (d.location == "England") {
-                //     dates[d.date]["United Kingdom"] = +d["total_cases"];
-                // } else if (d.location == "USA") {
-                //     dates[d.date]["United States"] = +d["total_cases"];
-                // } else {
-                //     dates[d.date][d.location] = +d["total_cases"];
-                // }
-                // switch (d.location) {
-                //     case "USA":
-                //         dates[d.date]["United States"] = +d["total_cases"];
-                //     case "England":
-                //         dates[d.date]["United Kingdom"] = +d["total_cases"];
-                //     default:
-                //         dates[d.date][d.location] = +d["total_cases"];
+            // if (d.location == "England") {
+            //     dates[d.date]["United Kingdom"] = +d["total_cases"];
+            // } else if (d.location == "USA") {
+            //     dates[d.date]["United States"] = +d["total_cases"];
+            // } else {
+            //     dates[d.date][d.location] = +d["total_cases"];
+            // }
+            // switch (d.location) {
+            //     case "USA":
+            //         dates[d.date]["United States"] = +d["total_cases"];
+            //     case "England":
+            //         dates[d.date]["United Kingdom"] = +d["total_cases"];
+            //     default:
+            //         dates[d.date][d.location] = +d["total_cases"];
 
-                // }
+            // }
         }),
 ]
 
 //add geoAndFulldata as dependency task,dependecy is sth depend on it, Promise is a class
-//better approach: to process dependecy and data, asynchonously. after data processing, use callbackk
+//better approach: to process dependecy and data, asynchonously. after data processing, use callback
 //to update view. 
 Promise.all(geoAndFulldata).then((data) => {
     countries = data[0];
+    console.log(data[0])
     ready();
 }).catch((error) => {
     console.log(error);
@@ -74,10 +76,10 @@ Promise.all(geoAndFulldata).then((data) => {
 
 // Data and color scale
 const colorScale = d3
-  .scaleThreshold()
-  .domain([100, 1000, 10000, 50000, 100000, 500000, 1000000])
-//   .domain([1500000, 1200000, 1000000, 800000, 500000, 300000, 200000].reverse)
-  .range(d3.schemeGreens[8]);
+    .scaleThreshold()
+    .domain([100, 1000, 10000, 50000, 100000, 500000, 1000000])
+    //   .domain([1500000, 1200000, 1000000, 800000, 500000, 300000, 200000].reverse)
+    .range(d3.schemeGreens[8]);
 
 
 let map = svg;
@@ -131,6 +133,7 @@ function ready() {
         )
         // set the color of each country
         .attr("fill", function (d) {
+            debugger
             d.total = dates[date][d.id] || 0;
             return colorScale(d.total);
         })
@@ -172,13 +175,13 @@ const playThrough = () => {
         loopEvent = null;
         document.getElementById("myButton").value = "Time Lapse";
     } else { //play
-        if (Date.parse(document.getElementById("datePicker").value) < Date.parse("2020-09-06")) {
+        if (Date.parse(document.getElementById("datePicker").value) < Date.parse("2020-12-15")) {
             increment();
             document.getElementById("myButton").value = "Pause";
             loopEvent = setInterval(increment, 500);
         } else {
             //invalid date
-            document.getElementById("datePicker").value = "2019-12-31";
+            document.getElementById("datePicker").value = "2020-02-24";
             increment();
             document.getElementById("myButton").value = "Pause";
             loopEvent = setInterval(increment, 500);
@@ -189,7 +192,7 @@ const playThrough = () => {
 const increment = () => {
 
     let date = document.getElementById("datePicker").value;
-    if (Date.parse(date) < Date.parse("2020-09-06")) {
+    if (Date.parse(date) < Date.parse("2020-12-15")) {
         //continue
         document.getElementById("datePicker").value = nextDateOf(date);
         timeLapse();
@@ -199,7 +202,7 @@ const increment = () => {
         window.clearInterval(loopEvent);
         document.getElementById("myButton").value = "Time Lapse";
         loopEvent = null;
-        document.getElementById("datePicker").value = "2019-12-31";
+        document.getElementById("datePicker").value = "2020-02-24";
     }
 };
 
@@ -209,7 +212,7 @@ function nextDateOf(today) {
     }
     var nextDate = new Date(today);
     nextDate.setDate(nextDate.getDate() + 1);
-    return JSON.stringify(nextDate).substring(1,11);
+    return JSON.stringify(nextDate).substring(1, 11);
 }
 
 //updat map
