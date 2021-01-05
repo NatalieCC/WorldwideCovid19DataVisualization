@@ -31,7 +31,7 @@ let countries = {};
 // Load external data and boot
 const geoAndFulldata = [
     d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
-    d3.csv("./owid-covid-data.csv",
+    d3.csv("./covid-data.csv",
         //d3.csv("./full_data.csv",
         (d) => {
             if (!dates[d.date]) {
@@ -133,7 +133,6 @@ function ready() {
         )
         // set the color of each country
         .attr("fill", function (d) {
-            debugger
             d.total = dates[date][d.id] || 0;
             return colorScale(d.total);
         })
